@@ -36,6 +36,20 @@ public class VMC implements VMCreationApproaches{
 	}
 
 	public void migratedVMCreation() throws Exception{
+		PhysicalMachine pm1 = ExercisesBase.getNewPhysicalMachine();
+		pm1.turnon();
+		PhysicalMachine pm2 = ExercisesBase.getNewPhysicalMachine();
+		pm2.turnon();
+		Timed.simulateUntilLastEvent();
+		VirtualAppliance va1 = new VirtualAppliance("Virtaulappliance1", 34.0, 0);
+		
+		ResourceConstraints rc1 = new ConstantConstraints(0.25, 10.0, 100);
+		
+		pm1.localDisk.registerObject(va1);
+	
+		pm1.requestVM(va1, rc1, pm1.localDisk, 1);
+		//pm2.requestVM(va2, rc2, pm1.localDisk, 2);
+		Timed.simulateUntilLastEvent();
 	}
 }
 
