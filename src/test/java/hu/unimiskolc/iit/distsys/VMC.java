@@ -1,6 +1,7 @@
 package hu.unimiskolc.iit.distsys;
 
 import hu.mta.sztaki.lpds.cloud.simulator.Timed;
+import hu.mta.sztaki.lpds.cloud.simulator.iaas.IaaSService;
 import hu.mta.sztaki.lpds.cloud.simulator.iaas.PhysicalMachine;
 import hu.mta.sztaki.lpds.cloud.simulator.iaas.PhysicalMachine.ResourceAllocation;
 import hu.mta.sztaki.lpds.cloud.simulator.iaas.VirtualMachine;
@@ -38,6 +39,17 @@ public class VMC implements VMCreationApproaches{
 	}
 
 	public void indirectVMCreation() throws Exception{
+		IaaSService iaaSService = ExercisesBase.getNewIaaSService();
+		PhysicalMachine pm1 = ExercisesBase.getNewPhysicalMachine();
+		pm1.turnon();
+		Timed.simulateUntilLastEvent();
+		VirtualAppliance va = new VirtualAppliance("Virtaulappliance", 34.0, 0);
+		pm1.localDisk.registerObject(va);
+		iaaSService.registerHost(pm1);
+		iaaSService.registerRepository(pm1.localDisk);
+		ResourceConstraints rc = new ConstantConstraints(0.25, 10.0, 100);
+		iaaSService.requestVM(va, rc, pm1.localDisk, 2);
+		Timed.simulateUntilLastEvent();
 	}
 
 	public void migratedVMCreation() throws Exception{
