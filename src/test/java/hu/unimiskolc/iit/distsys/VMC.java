@@ -57,14 +57,13 @@ public class VMC implements VMCreationApproaches{
 		PhysicalMachine pm2 = ExercisesBase.getNewPhysicalMachine();
 		pm2.turnon();
 		Timed.simulateUntilLastEvent();
-		VirtualAppliance va1 = new VirtualAppliance("Virtaulappliance1", 34.0, 0);
-		
-		ResourceConstraints rc1 = new ConstantConstraints(0.25, 10.0, 100);
-		
-		pm1.localDisk.registerObject(va1);
-	
-		pm1.requestVM(va1, rc1, pm1.localDisk, 1);
-		//pm2.requestVM(va2, rc2, pm1.localDisk, 2);
+		VirtualAppliance va = new VirtualAppliance("Virtaulappliance1", 34.0, 0);
+		pm1.localDisk.registerObject(va);
+		pm2.localDisk.registerObject(va);
+		ResourceConstraints rc = new ConstantConstraints(0.25, 10.0, 100);
+		VirtualMachine vm1 = pm1.requestVM(va, rc, pm1.localDisk, 1)[0];
+		Timed.simulateUntilLastEvent();
+		pm1.migrateVM(vm1, pm2);
 		Timed.simulateUntilLastEvent();
 	}
 }
