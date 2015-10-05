@@ -41,6 +41,7 @@ public class TestVMCreation {
 			InstantiationException, IllegalAccessException {
 		Timed.resetTimed();
 		ExercisesBase.reset();
+		System.setProperty("hu.unimiskolc.iit.distsys.VMC", "hu.unimiskolc.iit.distsys.VMC");
 		vmc = TestCreatorFactory.createApproachesExercise();
 	}
 

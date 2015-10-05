@@ -44,6 +44,7 @@ public class TestRoundRobinJobSched {
 		final int requestedVMcount = 100;
 		// Preparing the IaaS
 		IaaSService myIaaS = ExercisesBase.getComplexInfrastructure(10);
+		System.setProperty("hu.unimiskolc.iit.distsys.PMFiller", "hu.unimiskolc.iit.distsys.PMFiller");
 		FillInAllPMs myPMFiller = TestCreatorFactory.getPMFiller();
 		myPMFiller.filler(myIaaS, requestedVMcount);
 		Assert.assertEquals("Should have all PMs running as all should be occupied with VMs", myIaaS.machines.size(),
