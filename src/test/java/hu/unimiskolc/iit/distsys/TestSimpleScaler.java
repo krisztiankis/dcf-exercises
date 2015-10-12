@@ -43,6 +43,8 @@ public class TestSimpleScaler {
 	@Test(timeout = 10000)
 	public void testCase() throws Exception {
 		// Preparing the IaaS
+		
+		System.setProperty("hu.unimiskolc.iit.distsys.RRJSched", "hu.unimiskolc.iit.distsys.RRJSched");
 		final IaaSService myIaaS = ExercisesBase.getComplexInfrastructure(100);
 		Repository r = myIaaS.repositories.get(0);
 		VirtualAppliance va = (VirtualAppliance) r.contents().iterator().next();
