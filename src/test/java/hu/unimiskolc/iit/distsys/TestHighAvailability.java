@@ -50,6 +50,7 @@ public class TestHighAvailability {
 
 	@Test(timeout = 180000)
 	public void hatest() throws Exception {
+		System.setProperty("hu.unimiskolc.iit.distsys.RRJSched2", "hu.unimiskolc.iit.distsys.RRJSched2");
 		int[] successCounters = new int[availabilityLevels.length];
 		int[] totalCounters = new int[availabilityLevels.length];
 		final IaaSService myIaaS = ExercisesBase.getComplexInfrastructure(100);
@@ -77,7 +78,7 @@ public class TestHighAvailability {
 		// Preparing the jobs for the VMs
 		RepetitiveRandomTraceGenerator rrtg = new RepetitiveRandomTraceGenerator(ComplexDCFJob.class);
 		// total number of jobs
-		rrtg.setJobNum(1000);
+		rrtg.setJobNum(100);
 		// joblist properties
 		rrtg.setExecmin(10);
 		rrtg.setExecmax(3600);

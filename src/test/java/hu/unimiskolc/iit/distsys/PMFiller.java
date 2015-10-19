@@ -49,14 +49,14 @@ public class PMFiller implements FillInAllPMs{
 					
 					System.out.println(c + ", " + p + ", " + m + ", " + iaas.machines.size());
 					
-					rc = new ConstantConstraints(c/10, p/10, m/10);
+					rc = new ConstantConstraints(c/10, p, m/10);
 				
 					vm = iaas2.requestVM(va, rc, iaas2.localDisk, iaas.machines.size())[0];
 					Timed.simulateUntilLastEvent();
 					
 				//	System.out.println(vm.getState());
-				//	System.out.println(vm.getResourceAllocation().allocated.getRequiredCPUs());
-				//	System.out.println(vm.getResourceAllocation().getHost());
+					System.out.println(vm.getResourceAllocation().allocated.getRequiredCPUs());
+					System.out.println(vm.getResourceAllocation().getHost());
 				//	System.out.println(vm.getResourceAllocation());
 					Timed.simulateUntilLastEvent();
 		//	}

@@ -35,7 +35,7 @@ public class TestCreatorFactory {
 
 	public static BasicJobScheduler createARoundRobinScheduler()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		return (BasicJobScheduler) Class.forName(System.getProperty("hu.unimiskolc.iit.distsys.RRJSched"))
+		return (BasicJobScheduler) Class.forName(System.getProperty("hu.unimiskolc.iit.distsys.RRJSched2"))
 				.newInstance();
 	}
 

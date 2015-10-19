@@ -67,7 +67,7 @@ public class RRJSched implements BasicJobScheduler {
 						j.preceding,
 						j.thinkTimeAfterPreceeding);
 				
-				
+			
 				
 				
 			}
