@@ -68,7 +68,7 @@ public class RRJSched implements BasicJobScheduler {
 						j.thinkTimeAfterPreceeding);
 				
 				
-				cj.startNowOnVM(vm, VMStateChange.this.);
+				
 				
 			}
 			
