@@ -30,7 +30,7 @@ public class PMFiller implements FillInAllPMs{
 		
 		VirtualAppliance va = new VirtualAppliance("Virtaulappliance", 1, 0);
 		VirtualMachine vm = new VirtualMachine(va);
-		ResourceConstraints rc = new AlterableResourceConstraints(24.0, 20000.0, 4096);
+		ConstantConstraints cc = new ConstantConstraints(24.0, 2000.0, 1024);
 		
 		
 		Timed.simulateUntilLastEvent();	
@@ -41,17 +41,21 @@ public class PMFiller implements FillInAllPMs{
 			iaas.registerRepository(pm.localDisk);
 			pm.localDisk.registerObject(va);
 		//	for (int i = 0; i < vmCount; i++) {
-			System.out.println(iaas.machines.size());
+			Timed.simulateUntilLastEvent();
 			double c = pm.freeCapacities.getRequiredCPUs();
 			double p = pm.freeCapacities.getRequiredProcessingPower();
 			long m = pm.freeCapacities.getRequiredMemory();
 				
 			System.out.println(c + ", " + p + ", " + m + ", " + iaas.machines.size());
-				
-	//		rc = new ConstantConstraints(c/10, p, m/10);
 			
+			cc = new ConstantConstraints(c/vmCount * iaas.machines.size(), p, m/vmCount * iaas.machines.size());
+		//	Timed.simulateUntilLastEvent();
+			
+		//	for (int i = 0; i <= iaas.machines.size(); i++){
+		
 			try {
-				vm = pm.requestVM(va, rc, pm.localDisk, iaas.machines.size())[0];
+
+				vm = pm.requestVM(va, cc, pm.localDisk, (vmCount - iaas.machines.size()) / iaas.machines.size())[0];
 			} catch (VMManagementException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -59,14 +63,29 @@ public class PMFiller implements FillInAllPMs{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			Timed.simulateUntilLastEvent();
-				
-			//	System.out.println(vm.getState());
-//			System.out.println(vm.getResourceAllocation().allocated.getRequiredCPUs());
-				System.out.println(vm.getResourceAllocation().getHost());
-			//	System.out.println(vm.getResourceAllocation());
-				Timed.simulateUntilLastEvent();
-			//}
+			
+			c = pm.freeCapacities.getRequiredCPUs();
+			p = pm.freeCapacities.getRequiredProcessingPower();
+			m = pm.freeCapacities.getRequiredMemory();
+			
+			System.out.println("Másik: " + c + ", " + p + ", " + m + ", " + iaas.machines.size());
+			cc = new ConstantConstraints(c , p, m );
+			try {
+				vm = pm.requestVM(va, cc, pm.localDisk, 1)[0];
+			} catch (VMManagementException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NetworkException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println(vm.getResourceAllocation().getHost());
+			Timed.simulateUntilLastEvent();
+		//	}
 		}
+		
+		
+		
+		
 	}
 }
