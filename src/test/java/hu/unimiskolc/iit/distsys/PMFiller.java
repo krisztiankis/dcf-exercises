@@ -36,30 +36,22 @@ public class PMFiller implements FillInAllPMs{
 		Timed.simulateUntilLastEvent();	
 	
 	
-		for (PhysicalMachine iaas2 : iaas.machines){
-			try {
-
-				iaas.registerRepository(iaas2.localDisk);
-				iaas2.localDisk.registerObject(va);
-			//	for (int i = 0; i < vmCount; i++) {
-				//	System.out.println(iaas.machines.get(i).getCapacities());
-					double c = iaas2.getCapacities().getRequiredCPUs();
-					double p = iaas2.getCapacities().getRequiredProcessingPower();
-					long m = iaas2.getCapacities().getRequiredMemory();
-					
-					System.out.println(c + ", " + p + ", " + m + ", " + iaas.machines.size());
-					
-					rc = new ConstantConstraints(c/10, p, m/10);
+		for (PhysicalMachine pm : iaas.machines){
+			//	pm.turnon();
+			iaas.registerRepository(pm.localDisk);
+			pm.localDisk.registerObject(va);
+		//	for (int i = 0; i < vmCount; i++) {
+			System.out.println(iaas.machines.size());
+			double c = pm.freeCapacities.getRequiredCPUs();
+			double p = pm.freeCapacities.getRequiredProcessingPower();
+			long m = pm.freeCapacities.getRequiredMemory();
 				
-					vm = iaas2.requestVM(va, rc, iaas2.localDisk, iaas.machines.size())[0];
-					Timed.simulateUntilLastEvent();
-					
-				//	System.out.println(vm.getState());
-					System.out.println(vm.getResourceAllocation().allocated.getRequiredCPUs());
-					System.out.println(vm.getResourceAllocation().getHost());
-				//	System.out.println(vm.getResourceAllocation());
-					Timed.simulateUntilLastEvent();
-		//	}
+			System.out.println(c + ", " + p + ", " + m + ", " + iaas.machines.size());
+				
+	//		rc = new ConstantConstraints(c/10, p, m/10);
+			
+			try {
+				vm = pm.requestVM(va, rc, pm.localDisk, iaas.machines.size())[0];
 			} catch (VMManagementException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -67,6 +59,14 @@ public class PMFiller implements FillInAllPMs{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+//			Timed.simulateUntilLastEvent();
+				
+			//	System.out.println(vm.getState());
+//			System.out.println(vm.getResourceAllocation().allocated.getRequiredCPUs());
+				System.out.println(vm.getResourceAllocation().getHost());
+			//	System.out.println(vm.getResourceAllocation());
+				Timed.simulateUntilLastEvent();
+			//}
 		}
 	}
 }
